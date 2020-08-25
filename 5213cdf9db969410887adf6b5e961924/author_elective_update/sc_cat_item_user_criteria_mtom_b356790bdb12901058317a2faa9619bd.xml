@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sc_cat_item_user_criteria_mtom">
+    <sc_cat_item_user_criteria_mtom action="DELETE">
+        <sc_cat_item display_value="Global Catalog Item">ef59d423db025010887adf6b5e961969</sc_cat_item>
+        <sys_class_name>sc_cat_item_user_criteria_mtom</sys_class_name>
+        <sys_created_by>dale.stubblefield</sys_created_by>
+        <sys_created_on>2020-08-02 19:49:49</sys_created_on>
+        <sys_id>b356790bdb12901058317a2faa9619bd</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Global Catalog Item.The ACME North America IT Department</sys_name>
+        <sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope>
+        <sys_update_name>sc_cat_item_user_criteria_mtom_b356790bdb12901058317a2faa9619bd</sys_update_name>
+        <sys_updated_by>dale.stubblefield</sys_updated_by>
+        <sys_updated_on>2020-08-02 19:49:49</sys_updated_on>
+        <user_criteria display_value="The ACME North America IT Department">25431493ff4221009b20ffffffffffe0</user_criteria>
+    </sc_cat_item_user_criteria_mtom>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</application>
+        <file_path/>
+        <instance_id>a1fc2553db8858d0406350b6f4961917</instance_id>
+        <instance_name>empdstubblefield1</instance_name>
+        <name>sc_cat_item_user_criteria_mtom_b356790bdb12901058317a2faa9619bd</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sc_cat_item_user_criteria_mtom"><sc_cat_item_user_criteria_mtom action="INSERT_OR_UPDATE"><sc_cat_item display_value="Global Catalog Item">ef59d423db025010887adf6b5e961969</sc_cat_item><sys_class_name>sc_cat_item_user_criteria_mtom</sys_class_name><sys_created_by>dale.stubblefield</sys_created_by><sys_created_on>2020-08-02 19:49:49</sys_created_on><sys_id>b356790bdb12901058317a2faa9619bd</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Global Catalog Item.The ACME North America IT Department</sys_name><sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package><sys_policy/><sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope><sys_update_name>sc_cat_item_user_criteria_mtom_b356790bdb12901058317a2faa9619bd</sys_update_name><sys_updated_by>dale.stubblefield</sys_updated_by><sys_updated_on>2020-08-02 19:49:49</sys_updated_on><user_criteria display_value="The ACME North America IT Department">25431493ff4221009b20ffffffffffe0</user_criteria></sc_cat_item_user_criteria_mtom></record_update>]]></payload>
+        <payload_hash>-1909741764</payload_hash>
+        <record_name>Global Catalog Item.The ACME North America IT Department</record_name>
+        <reverted_from/>
+        <source>9136f55fdbc010107e80d3fa5e9619c7</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>dale.stubblefield</sys_created_by>
+        <sys_created_on>2020-08-02 19:49:50</sys_created_on>
+        <sys_id>bf56790bdb12901058317a2faa9619c0</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>173b0b923e90000001</sys_recorded_at>
+        <sys_updated_by>dale.stubblefield</sys_updated_by>
+        <sys_updated_on>2020-08-02 19:49:50</sys_updated_on>
+        <type>Catalog Item Available for</type>
+        <update_guid>f756790b7a1290109c9a5c73032d86c0</update_guid>
+        <update_guid_history>f756790b7a1290109c9a5c73032d86c0:-1909741764</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Global Catalog Item.The ACME North America IT Department">ec763d0bdb12901058317a2faa961916</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>dale.stubblefield</sys_created_by>
+        <sys_created_on>2020-08-02 19:50:09</sys_created_on>
+        <sys_db_object display_value="" name="sc_cat_item_user_criteria_mtom">sc_cat_item_user_criteria_mtom</sys_db_object>
+        <sys_id>5f5aea85b4c341c99e593e38e508f719</sys_id>
+        <sys_metadata>b356790bdb12901058317a2faa9619bd</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Global Catalog Item.The ACME North America IT Department</sys_name>
+        <sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package>
+        <sys_parent display_value="Global Catalog Item (Admin only)">ef59d423db025010887adf6b5e961969</sys_parent>
+        <sys_policy/>
+        <sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope>
+        <sys_scope_delete display_value="">019174112e2d4c82864260cdceae75a9</sys_scope_delete>
+        <sys_update_name>sc_cat_item_user_criteria_mtom_b356790bdb12901058317a2faa9619bd</sys_update_name>
+        <sys_update_version display_value="sc_cat_item_user_criteria_mtom_b356790bdb12901058317a2faa9619bd">bf56790bdb12901058317a2faa9619c0</sys_update_version>
+        <sys_updated_by>dale.stubblefield</sys_updated_by>
+        <sys_updated_on>2020-08-02 19:50:09</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

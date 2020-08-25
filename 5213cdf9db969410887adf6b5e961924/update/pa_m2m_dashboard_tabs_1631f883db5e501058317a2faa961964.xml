@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="pa_m2m_dashboard_tabs">
+    <pa_m2m_dashboard_tabs action="INSERT_OR_UPDATE">
+        <dashboard display_value="Scoped Catalog Items">4721b883db5e501058317a2faa9619b3</dashboard>
+        <home>false</home>
+        <homepage/>
+        <order>1</order>
+        <sys_class_name>pa_m2m_dashboard_tabs</sys_class_name>
+        <sys_created_by>dale.stubblefield</sys_created_by>
+        <sys_created_on>2020-08-02 14:47:43</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>1631f883db5e501058317a2faa961964</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>4721b883db5e501058317a2faa9619b3</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope>
+        <sys_update_name>pa_m2m_dashboard_tabs_1631f883db5e501058317a2faa961964</sys_update_name>
+        <sys_updated_by>dale.stubblefield</sys_updated_by>
+        <sys_updated_on>2020-08-02 14:47:43</sys_updated_on>
+        <tab display_value="Scoped Catalog Items - New Tab">1a31f883db5e501058317a2faa961961</tab>
+    </pa_m2m_dashboard_tabs>
+</record_update>

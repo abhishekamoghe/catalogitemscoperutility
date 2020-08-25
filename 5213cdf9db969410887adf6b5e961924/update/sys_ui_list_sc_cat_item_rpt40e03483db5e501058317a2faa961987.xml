@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_ui_list parent="" relationship="" sys_domain="global" table="sc_cat_item" version="2" view="RPT40e03483db5e501058317a2faa961987">
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>name</element>
+            <list_id display_value="sc_cat_item" element="NULL" name="sc_cat_item" parent="NULL" relationship="NULL" sys_domain="global" view="3cf07483db5e501058317a2faa9619b0">01d8a2cfdb92901058317a2faa961937</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>0</position>
+            <sum>false</sum>
+            <sys_created_by>dale.stubblefield</sys_created_by>
+            <sys_created_on>2020-08-02 23:30:17</sys_created_on>
+            <sys_id>0dd8a2cfdb92901058317a2faa961937</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>dale.stubblefield</sys_updated_by>
+            <sys_updated_on>2020-08-02 23:30:17</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>active</element>
+            <list_id display_value="sc_cat_item" element="NULL" name="sc_cat_item" parent="NULL" relationship="NULL" sys_domain="global" view="3cf07483db5e501058317a2faa9619b0">01d8a2cfdb92901058317a2faa961937</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>1</position>
+            <sum>false</sum>
+            <sys_created_by>dale.stubblefield</sys_created_by>
+            <sys_created_on>2020-08-02 23:30:17</sys_created_on>
+            <sys_id>8dd8a2cfdb92901058317a2faa961937</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>dale.stubblefield</sys_updated_by>
+            <sys_updated_on>2020-08-02 23:30:17</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>sc_catalogs</element>
+            <list_id display_value="sc_cat_item" element="NULL" name="sc_cat_item" parent="NULL" relationship="NULL" sys_domain="global" view="3cf07483db5e501058317a2faa9619b0">01d8a2cfdb92901058317a2faa961937</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>2</position>
+            <sum>false</sum>
+            <sys_created_by>dale.stubblefield</sys_created_by>
+            <sys_created_on>2020-08-02 23:30:17</sys_created_on>
+            <sys_id>01d8a2cfdb92901058317a2faa961938</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>dale.stubblefield</sys_updated_by>
+            <sys_updated_on>2020-08-02 23:30:17</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>category</element>
+            <list_id display_value="sc_cat_item" element="NULL" name="sc_cat_item" parent="NULL" relationship="NULL" sys_domain="global" view="3cf07483db5e501058317a2faa9619b0">01d8a2cfdb92901058317a2faa961937</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>3</position>
+            <sum>false</sum>
+            <sys_created_by>dale.stubblefield</sys_created_by>
+            <sys_created_on>2020-08-02 23:30:17</sys_created_on>
+            <sys_id>81d8a2cfdb92901058317a2faa961938</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>dale.stubblefield</sys_updated_by>
+            <sys_updated_on>2020-08-02 23:30:17</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>sys_updated_on</element>
+            <list_id display_value="sc_cat_item" element="NULL" name="sc_cat_item" parent="NULL" relationship="NULL" sys_domain="global" view="3cf07483db5e501058317a2faa9619b0">01d8a2cfdb92901058317a2faa961937</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>4</position>
+            <sum>false</sum>
+            <sys_created_by>dale.stubblefield</sys_created_by>
+            <sys_created_on>2020-08-02 23:30:17</sys_created_on>
+            <sys_id>05d8a2cfdb92901058317a2faa961938</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>dale.stubblefield</sys_updated_by>
+            <sys_updated_on>2020-08-02 23:30:17</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list_element action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element>sys_scope</element>
+            <list_id display_value="sc_cat_item" element="NULL" name="sc_cat_item" parent="NULL" relationship="NULL" sys_domain="global" view="3cf07483db5e501058317a2faa9619b0">01d8a2cfdb92901058317a2faa961937</list_id>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <position>5</position>
+            <sum>false</sum>
+            <sys_created_by>dale.stubblefield</sys_created_by>
+            <sys_created_on>2020-08-02 23:30:17</sys_created_on>
+            <sys_id>85d8a2cfdb92901058317a2faa961938</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>dale.stubblefield</sys_updated_by>
+            <sys_updated_on>2020-08-02 23:30:17</sys_updated_on>
+        </sys_ui_list_element>
+        <sys_ui_list action="INSERT_OR_UPDATE">
+            <average_value>false</average_value>
+            <element/>
+            <max_value>false</max_value>
+            <min_value>false</min_value>
+            <name>sc_cat_item</name>
+            <parent/>
+            <position/>
+            <relationship/>
+            <sum>false</sum>
+            <sys_class_name>sys_ui_list</sys_class_name>
+            <sys_created_by>dale.stubblefield</sys_created_by>
+            <sys_created_on>2020-08-02 23:30:17</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>01d8a2cfdb92901058317a2faa961937</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>sc_cat_item</sys_name>
+            <sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope>
+            <sys_update_name>sys_ui_list_sc_cat_item_RPT40e03483db5e501058317a2faa961987</sys_update_name>
+            <sys_updated_by>dale.stubblefield</sys_updated_by>
+            <sys_updated_on>2020-08-02 23:30:17</sys_updated_on>
+            <sys_user/>
+            <view display_value="Rpt40e03483db5e501058317a2faa961987" name="RPT40e03483db5e501058317a2faa961987">3cf07483db5e501058317a2faa9619b0</view>
+            <view_name/>
+        </sys_ui_list>
+    </sys_ui_list>
+</record_update>

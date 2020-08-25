@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sc_cat_item_catalog">
+    <sc_cat_item_catalog action="DELETE">
+        <sc_cat_item display_value="Global Catalog Item(Scoped)">3b25b98edb5694107e80d3fa5e96193c</sc_cat_item>
+        <sc_catalog display_value="Service Catalog">e0d08b13c3330100c8b837659bba8fb4</sc_catalog>
+        <sys_class_name>sc_cat_item_catalog</sys_class_name>
+        <sys_created_by>dale.stubblefield</sys_created_by>
+        <sys_created_on>2020-07-30 17:10:43</sys_created_on>
+        <sys_id>3f25b98edb5694107e80d3fa5e961940</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Service Catalog.Global Catalog Item(Scoped)</sys_name>
+        <sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope>
+        <sys_update_name>sc_cat_item_catalog_3f25b98edb5694107e80d3fa5e961940</sys_update_name>
+        <sys_updated_by>dale.stubblefield</sys_updated_by>
+        <sys_updated_on>2020-07-30 17:10:43</sys_updated_on>
+    </sc_cat_item_catalog>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</application>
+        <file_path/>
+        <instance_id>a1fc2553db8858d0406350b6f4961917</instance_id>
+        <instance_name>empdstubblefield1</instance_name>
+        <name>sc_cat_item_catalog_3f25b98edb5694107e80d3fa5e961940</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sc_cat_item_catalog"><sc_cat_item_catalog action="INSERT_OR_UPDATE"><sc_cat_item display_value="Global Catalog Item(Scoped)">3b25b98edb5694107e80d3fa5e96193c</sc_cat_item><sc_catalog display_value="Service Catalog">e0d08b13c3330100c8b837659bba8fb4</sc_catalog><sys_class_name>sc_cat_item_catalog</sys_class_name><sys_created_by>dale.stubblefield</sys_created_by><sys_created_on>2020-07-30 17:10:43</sys_created_on><sys_id>3f25b98edb5694107e80d3fa5e961940</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Service Catalog.Global Catalog Item(Scoped)</sys_name><sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package><sys_policy/><sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope><sys_update_name>sc_cat_item_catalog_3f25b98edb5694107e80d3fa5e961940</sys_update_name><sys_updated_by>dale.stubblefield</sys_updated_by><sys_updated_on>2020-07-30 17:10:43</sys_updated_on></sc_cat_item_catalog></record_update>]]></payload>
+        <payload_hash>-2076159792</payload_hash>
+        <record_name>Service Catalog.Global Catalog Item(Scoped)</record_name>
+        <reverted_from/>
+        <source>9136f55fdbc010107e80d3fa5e9619c7</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>dale.stubblefield</sys_created_by>
+        <sys_created_on>2020-07-30 17:10:43</sys_created_on>
+        <sys_id>0835b98edb5694107e80d3fa5e961943</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>173a0b4653f0000001</sys_recorded_at>
+        <sys_updated_by>dale.stubblefield</sys_updated_by>
+        <sys_updated_on>2020-07-30 17:10:43</sys_updated_on>
+        <type>Catalog Items Catalog</type>
+        <update_guid>8c35b98e715694104b30d516ec219142</update_guid>
+        <update_guid_history>8c35b98e715694104b30d516ec219142:-2076159792</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Service Catalog.Global Catalog Item(Scoped)">0fe5b90edb92d410887adf6b5e9619f6</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>delegated.developer</sys_created_by>
+        <sys_created_on>2020-07-30 17:13:56</sys_created_on>
+        <sys_db_object display_value="" name="sc_cat_item_catalog">sc_cat_item_catalog</sys_db_object>
+        <sys_id>01a2654265ef45ba82abdd3540c04919</sys_id>
+        <sys_metadata>3f25b98edb5694107e80d3fa5e961940</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Service Catalog.Global Catalog Item(Scoped)</sys_name>
+        <sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope>
+        <sys_scope_delete display_value="">019174112e2d4c82864260cdceae75a9</sys_scope_delete>
+        <sys_update_name>sc_cat_item_catalog_3f25b98edb5694107e80d3fa5e961940</sys_update_name>
+        <sys_update_version display_value="sc_cat_item_catalog_3f25b98edb5694107e80d3fa5e961940">0835b98edb5694107e80d3fa5e961943</sys_update_version>
+        <sys_updated_by>delegated.developer</sys_updated_by>
+        <sys_updated_on>2020-07-30 17:13:56</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

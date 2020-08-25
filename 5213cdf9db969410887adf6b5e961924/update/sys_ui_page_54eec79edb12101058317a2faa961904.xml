@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
+    <sys_ui_page action="INSERT_OR_UPDATE">
+        <category>general</category>
+        <client_script><![CDATA[// based on code from UI Page: 'sys_atf_add_to_suite'
+function addToAppScope(itemId) {	
+
+	var ga = new GlideAjax('ItemScoperAjax');
+	ga.addParam('sysparm_name', 'addItemToAppScope');
+	ga.addParam('sysparm_item_id', itemId);
+	// ga.addParam('sysparm_scope_id', scopeId);
+	ga.getXMLAnswer(function (answer) {
+		closeDialog();
+		if (answer == "true") {
+			//addFormMessage("The selected tests were successfully added to the test suite '" + testSuiteName + "'", "info", 0);
+			addFormMessage("The Item was successfully added to the Application Scope.","info", 0);
+			//GlideModal.get().fireEvent("clearSelectedItems");
+		} else
+			addFormMessage("Unexpected error occurred while adding the Item to the new scope", "error", 0);
+
+	});
+}
+function addFormMessage(msg, type, id) {
+    GlideUI.get().clearOutputMessages();
+	GlideUI.get().addOutputMessage({msg: msg, type: type, id: id});
+}
+function closeDialog() {
+	GlideModal.get().destroy();
+}]]></client_script>
+        <description/>
+        <direct>false</direct>
+        <endpoint/>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+	<g:evaluate>
+		<!-- var testIds =  RP.getWindowProperties().get('test_ids'); -->
+		<!-- var testQuery = RP.getWindowProperties().get('test_query'); -->
+		var itemId = RP.getWindowProperties().get('item_id');
+	</g:evaluate>
+    <div id="add_to_app_scope_container" >
+		<div class="form-group">
+			<div nowrap="true" type="string" choice="0" data-type="label">
+				<label class="col-sm-12 col-md-2 control-label">
+					<span class="label-text">${gs.getMessage('Scope')}:</span>
+				</label>
+			</div>
+			<div class="col-sm-12 col-md-6 form-field input_controls">
+				<g2:ui_reference id="app_scope_picker"
+                                name="app_scope_picker"
+                                table="sys_app"
+                                columns="name"
+                                columns_search="false"
+                                order_by="name"
+                                show_popup="false"
+                                completer="AJAXTableCompleter"/>
+			</div>
+		</div>
+	<footer align="right" class="modal-footer flex" >
+		<button class="btn btn-default" onClick="closeDialog()"> ${gs.getMessage('Cancel')}</button>
+		<!--  <button class="btn btn-primary" id="add_button" onClick="addToAppScope('$[testIds]', '$[testQuery]')">  -->
+		<button class="btn btn-primary" id="add_button" onClick="addToAppScope(itemId)">
+			${gs.getMessage('Add')}
+		</button>
+	</footer>
+    </div>
+</j:jelly>]]></html>
+        <name>sc_cat_item_add_to_scope</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>dale.stubblefield</sys_created_by>
+        <sys_created_on>2020-07-31 18:21:05</sys_created_on>
+        <sys_id>54eec79edb12101058317a2faa961904</sys_id>
+        <sys_mod_count>25</sys_mod_count>
+        <sys_name>sc_cat_item_add_to_scope</sys_name>
+        <sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope>
+        <sys_update_name>sys_ui_page_54eec79edb12101058317a2faa961904</sys_update_name>
+        <sys_updated_by>dale.stubblefield</sys_updated_by>
+        <sys_updated_on>2020-07-31 19:54:31</sys_updated_on>
+    </sys_ui_page>
+</record_update>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
+    <sys_ui_page action="DELETE">
+        <category>general</category>
+        <client_script><![CDATA[function cancel() {
+	var c = gel('cancelled');
+	c.value = "true";
+	GlideDialogWindow.get().destroy();
+}
+
+function okHandler() {
+	var total_quantity = gel('total_qty').value;
+	var quantity = gel('qty').value;
+
+	if (isNaN(quantity)) {
+		alert(getMessage("Please enter a non-zero number for quantity"));
+		return false;
+	}
+
+	total_quantity = parseInt(total_quantity, 10);
+	quantity = parseInt(quantity, 10);
+
+	if (quantity < 1) {
+		alert(getMessage("Please enter a non-zero number for quantity"));
+		return false;
+	} else if (quantity > total_quantity) {
+		alert(getMessage("Please enter a quantity less than or equal to the total quantity"));
+		return false;
+	}
+	return true;
+}]]></client_script>
+        <description/>
+        <direct>false</direct>
+        <endpoint/>
+        <html><![CDATA[<g:ui_form>
+<input type="hidden" id="cancelled" name="cancelled" value="false"/>
+<input type="hidden" id="consumable" name="consumable" value="${sysparm_sys_id}"/>
+<input type="hidden" id="total_qty" name="total_qty" value="${sysparm_total_qty}"/>
+<input type="hidden" id="status" name="status" value="${sysparm_status}"/>
+<input type="hidden" id="substatus" name="substatus" value="${sysparm_substatus}"/>
+<j2:if test="$[!empty(sysparm_domain)]">
+	<input type="hidden" id="sysparm_domain" name="sysparm_domain" value="${sysparm_domain}"/>
+</j2:if>
+<j2:if test="$[!empty(sysparm_domain_scope)]">
+	<input type="hidden" id="sysparm_domain_scope" name="sysparm_domain_scope" value="${sysparm_domain_scope}" />
+</j2:if>
+<table width="80%" style="border-spacing:10px; height:80px;">
+	<tr>
+		<td rowspan="2" nowrap="true" width="50px" style="margin-left: 20px;">
+ 			<img src="images/plugin_activate.gifx" alt="${gs.getMessage('Mark consumable ready for disposal')}" style="vertical-align:top;" />
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align:right;">
+			<label style="color:red">*</label><label>${gs.getMessage('Quantity:')}$[SP]</label>
+		</td>
+		<td style="margin-top:5px; padding-left:10px;">
+			<input style="width:50px;" class="form-control" id="qty" name="qty" value="${sysparm_total_qty}" type="text"/>
+		</td>
+	</tr>
+
+    <tr id="dialogbuttons">
+        <td colspan="3" align="right">
+            <g:dialog_buttons_ok_cancel ok="return okHandler();" cancel="cancel();"/>
+        </td>
+    </tr>
+</table>
+</g:ui_form>]]></html>
+        <name>sc_cat_item_convert_to_new_scope</name>
+        <processing_script><![CDATA[var redirectId = consumable;
+if (cancelled == "false") {
+	redirectId = new global.Consumables().markReadyForDisposal(consumable, qty, status, substatus);
+}
+response.sendRedirect("alm_consumable.do?sys_id=" + redirectId);]]></processing_script>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>dale.stubblefield</sys_created_by>
+        <sys_created_on>2020-07-31 18:00:59</sys_created_on>
+        <sys_id>794a835adb12101058317a2faa96197e</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>sc_cat_item_convert_to_new_scope</sys_name>
+        <sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope>
+        <sys_update_name>sys_ui_page_794a835adb12101058317a2faa96197e</sys_update_name>
+        <sys_updated_by>dale.stubblefield</sys_updated_by>
+        <sys_updated_on>2020-07-31 18:04:01</sys_updated_on>
+    </sys_ui_page>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</application>
+        <file_path/>
+        <instance_id>a1fc2553db8858d0406350b6f4961917</instance_id>
+        <instance_name>empdstubblefield1</instance_name>
+        <name>sys_ui_page_794a835adb12101058317a2faa96197e</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_ui_page"&gt;&lt;sys_ui_page action="INSERT_OR_UPDATE"&gt;&lt;category&gt;general&lt;/category&gt;&lt;client_script&gt;&lt;![CDATA[function cancel() {
+	var c = gel('cancelled');
+	c.value = "true";
+	GlideDialogWindow.get().destroy();
+}
+
+function okHandler() {
+	var total_quantity = gel('total_qty').value;
+	var quantity = gel('qty').value;
+
+	if (isNaN(quantity)) {
+		alert(getMessage("Please enter a non-zero number for quantity"));
+		return false;
+	}
+
+	total_quantity = parseInt(total_quantity, 10);
+	quantity = parseInt(quantity, 10);
+
+	if (quantity &lt; 1) {
+		alert(getMessage("Please enter a non-zero number for quantity"));
+		return false;
+	} else if (quantity &gt; total_quantity) {
+		alert(getMessage("Please enter a quantity less than or equal to the total quantity"));
+		return false;
+	}
+	return true;
+}]]&gt;&lt;/client_script&gt;&lt;description/&gt;&lt;direct&gt;false&lt;/direct&gt;&lt;endpoint/&gt;&lt;html&gt;&lt;![CDATA[&lt;g:ui_form&gt;
+&lt;input type="hidden" id="cancelled" name="cancelled" value="false"/&gt;
+&lt;input type="hidden" id="consumable" name="consumable" value="${sysparm_sys_id}"/&gt;
+&lt;input type="hidden" id="total_qty" name="total_qty" value="${sysparm_total_qty}"/&gt;
+&lt;input type="hidden" id="status" name="status" value="${sysparm_status}"/&gt;
+&lt;input type="hidden" id="substatus" name="substatus" value="${sysparm_substatus}"/&gt;
+&lt;j2:if test="$[!empty(sysparm_domain)]"&gt;
+	&lt;input type="hidden" id="sysparm_domain" name="sysparm_domain" value="${sysparm_domain}"/&gt;
+&lt;/j2:if&gt;
+&lt;j2:if test="$[!empty(sysparm_domain_scope)]"&gt;
+	&lt;input type="hidden" id="sysparm_domain_scope" name="sysparm_domain_scope" value="${sysparm_domain_scope}" /&gt;
+&lt;/j2:if&gt;
+&lt;table width="80%" style="border-spacing:10px; height:80px;"&gt;
+	&lt;tr&gt;
+		&lt;td rowspan="2" nowrap="true" width="50px" style="margin-left: 20px;"&gt;
+ 			&lt;img src="images/plugin_activate.gifx" alt="${gs.getMessage('Mark consumable ready for disposal')}" style="vertical-align:top;" /&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+	&lt;tr&gt;
+		&lt;td style="text-align:right;"&gt;
+			&lt;label style="color:red"&gt;*&lt;/label&gt;&lt;label&gt;${gs.getMessage('Quantity:')}$[SP]&lt;/label&gt;
+		&lt;/td&gt;
+		&lt;td style="margin-top:5px; padding-left:10px;"&gt;
+			&lt;input style="width:50px;" class="form-control" id="qty" name="qty" value="${sysparm_total_qty}" type="text"/&gt;
+		&lt;/td&gt;
+	&lt;/tr&gt;
+
+    &lt;tr id="dialogbuttons"&gt;
+        &lt;td colspan="3" align="right"&gt;
+            &lt;g:dialog_buttons_ok_cancel ok="return okHandler();" cancel="cancel();"/&gt;
+        &lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/g:ui_form&gt;]]&gt;&lt;/html&gt;&lt;name&gt;sc_cat_item_convert_to_new_scope&lt;/name&gt;&lt;processing_script&gt;&lt;![CDATA[var redirectId = consumable;
+if (cancelled == "false") {
+	redirectId = new global.Consumables().markReadyForDisposal(consumable, qty, status, substatus);
+}
+response.sendRedirect("alm_consumable.do?sys_id=" + redirectId);]]&gt;&lt;/processing_script&gt;&lt;sys_class_name&gt;sys_ui_page&lt;/sys_class_name&gt;&lt;sys_created_by&gt;dale.stubblefield&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2020-07-31 18:00:59&lt;/sys_created_on&gt;&lt;sys_id&gt;794a835adb12101058317a2faa96197e&lt;/sys_id&gt;&lt;sys_mod_count&gt;1&lt;/sys_mod_count&gt;&lt;sys_name&gt;sc_cat_item_convert_to_new_scope&lt;/sys_name&gt;&lt;sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924"&gt;5213cdf9db969410887adf6b5e961924&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Catalog Item Scoper"&gt;5213cdf9db969410887adf6b5e961924&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_ui_page_794a835adb12101058317a2faa96197e&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;dale.stubblefield&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2020-07-31 18:04:01&lt;/sys_updated_on&gt;&lt;/sys_ui_page&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>-1092626737</payload_hash>
+        <record_name>sc_cat_item_convert_to_new_scope</record_name>
+        <reverted_from/>
+        <source>9136f55fdbc010107e80d3fa5e9619c7</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>dale.stubblefield</sys_created_by>
+        <sys_created_on>2020-07-31 18:04:01</sys_created_on>
+        <sys_id>d2fa039adb12101058317a2faa961976</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>173a60b8aaf0000001</sys_recorded_at>
+        <sys_updated_by>dale.stubblefield</sys_updated_by>
+        <sys_updated_on>2020-07-31 18:04:01</sys_updated_on>
+        <type>UI Page</type>
+        <update_guid>5efa039a87121010048da848ad9c1f75</update_guid>
+        <update_guid_history>5efa039a87121010048da848ad9c1f75:-1092626737,824a835a43121010fa52503df9dd9f80:-331322307</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>dale.stubblefield</sys_created_by>
+        <sys_created_on>2020-07-31 18:21:26</sys_created_on>
+        <sys_db_object display_value="" name="sys_ui_page">sys_ui_page</sys_db_object>
+        <sys_id>0b42d0421b534b6ca55de24698623c90</sys_id>
+        <sys_metadata>794a835adb12101058317a2faa96197e</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>sc_cat_item_convert_to_new_scope</sys_name>
+        <sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope>
+        <sys_scope_delete display_value="">019174112e2d4c82864260cdceae75a9</sys_scope_delete>
+        <sys_update_name>sys_ui_page_794a835adb12101058317a2faa96197e</sys_update_name>
+        <sys_update_version display_value="sys_ui_page_794a835adb12101058317a2faa96197e">d2fa039adb12101058317a2faa961976</sys_update_version>
+        <sys_updated_by>dale.stubblefield</sys_updated_by>
+        <sys_updated_on>2020-07-31 18:21:26</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

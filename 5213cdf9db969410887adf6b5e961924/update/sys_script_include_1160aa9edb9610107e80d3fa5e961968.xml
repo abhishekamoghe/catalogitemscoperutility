@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>global.ItemScoperUtil</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description>This function contains utility functions related to copying a Catalog Item from the Global scope to an Application Scope.  </description>
+        <name>ItemScoperUtil</name>
+        <script><![CDATA[var ItemScoperUtil = Class.create();
+ItemScoperUtil.prototype = {
+    LOGMSG: "ItemScoperUtil.copyItemToScope() -> ",
+
+    initialize: function() {
+        this.log = new GSLog('itemscoper.log', 'ItemScoperUtil');
+    },
+
+    copyItemToScope: function(source_item_id) {
+        //
+        // Target scope should eventually be moved to a UI Modal that allows user to select scope
+        //
+        // var target_scope_id = gs.getProperty('itemscoper.scope_id'); // Target Scope
+
+        // !!!!!  Why doesn't getting the property work?
+        // Hard coded for now...
+        target_scope_id = '58f29139dbd69410887adf6b5e9619ec';
+
+        var new_item_id = this._copyCatItem(source_item_id, target_scope_id);
+
+        this.log.logInfo("New Catalog Item created: ");
+        gs.info("New Catalog Item created: " + new_item_id);
+
+        var link = '<a href="sc_cat_item.do?sys_id=' + new_item_id + ' "  >LINK</a>' ;
+        gs.addInfoMessage('New Scoped Item: ' + link);
+
+        return new_item_id;
+    }, 
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Private Functions below here
+    ////////////////////////////////////////////////////////////////////////////////
+
+    _copyCatItem: function(source_item_id, target_scope_id) {
+    //// Create new "Catalog Item" [sc_cat_item] with same name
+            
+        // Get current item details
+        var grItem = new GlideRecord('sc_cat_item');
+        grItem.get(source_item_id);
+        var category_id = grItem.getValue('category');
+        var category_title = grItem.getDisplayValue('category');
+        var catalog_ids = grItem.getValue('sc_catalogs');
+        
+        // Create New Item with no Category or Catalog
+        var newName = grItem.getValue('name');
+        grItem.setValue('name',newName + '[Scoped]');
+        grItem.setValue('sys_scope',target_scope_id);
+        grItem.setValue('sc_catalogs','');
+        grItem.setValue('category','');
+        var new_item_id = grItem.insert();
+        
+        // Set Catalog for New Item by creating new records on [sc_cat_item_catalog]
+        // if catalogs has a comma, then insert multiple records, one for each catalog the item is in
+        this._add_item_to_catalogs(catalog_ids, new_item_id); 
+
+        // Set Category for New Item by creating new records on [sc_cat_item_category]
+        // First, create any necessary Scoped versions of Categories
+        this._copy_categories_for_new_item(source_item_id, new_item_id, target_scope_id);    
+
+        // Clone "Available For" [sc_cat_item_user_criteria_mtom]
+        this._copy_available_for_on_new_item(source_item_id, new_item_id, target_scope_id);   
+
+        // Clone "Not Available For" [sc_cat_item_user_criteria_no_mtom]
+        this._copy_not_available_for_on_new_item(source_item_id, new_item_id, target_scope_id);
+
+        // Clone "Catalog Client Scripts" [catalog_script_client]        
+        this._copy_client_scripts_to_new_item(source_item_id, new_item_id, target_scope_id);
+
+        // Catalog Variable Sets [io_set_item] <- Maps Catalog Item to Variable Set
+        // Clone Variable Sets [catalog_variable_set]
+        // Clone Catalog Variables [catalog_variable]
+        this._copy_variables_to_new_item(source_item_id, new_item_id, target_scope_id);
+
+        //this._copy_catalog_variables_to_new_item(source_item_id, new_item_id, target_scope_id);
+
+        
+
+        /*
+            <<< Records to create additional copy functions for >>> 
+                * Catalog UI Policies [catalog_ui_policy]
+                * Catalog UI Policy Actions[catalog_ui_policy_action]
+
+                * Catalog Client Scripts [catalog_script_client]
+
+                * Related Articles [sc_2_kb]
+                * Related Catalog Items [sc_2_sc]
+        */
+        return new_item_id;
+    },
+
+    _add_item_to_catalogs: function(catalog_ids, new_item_id) {
+        var catalog_ids_Arr = catalog_ids.split(',');
+        catalog_ids_Arr.forEach(createCatalogEntries);
+        function createCatalogEntries(item, index) {
+            this.log.logInfo(this.LOGMSG + "Creating Catalog Entry for Catalog: " + item);
+            var grCatItemCatalog = new GlideRecord('sc_cat_item_catalog');
+            grCatItemCatalog.initialize();
+            grCatItemCatalog.setValue('sc_catalog', item);
+            grCatItemCatalog.setValue('sys_scope', target_scope_id);
+            grCatItemCatalog.setValue('sc_cat_item', new_item_id);
+            grCatItemCatalog.insert();
+        } 
+    },
+
+    _copy_categories_for_new_item: function(source_item_id, new_item_id, target_scope_id) {
+        // look up source records to copy for original Item on sc_cat_item_category
+        var gr_sc_cat_item_category = new GlideRecord('sc_cat_item_category');
+        gr_sc_cat_item_category.addQuery('sc_cat_item', source_item_id);
+        gr_sc_cat_item_category.query();
+
+        // Ensure scoped version of 'Category' exists before inserting new Item record
+        // For each record, create a new category (ex. "Original Name [Scoped]")
+        while (gr_sc_cat_item_category.next()) {
+            category_title = gr_sc_cat_item_category.getDisplayValue('sc_category');
+        
+            // create new Scoped version of category if it does not exist
+            var new_category_id = this._ensure_scoped_category_exists(category_title, target_scope_id);
+
+            var grCatItemCategories = new GlideRecord('sc_cat_item_category');
+            grCatItemCategories.initialize();
+            grCatItemCategories.setValue('sc_cat_item',new_item_id);
+            grCatItemCategories.setValue('sc_category',new_category_id);
+            //grCatItemCategories.setValue('sys_package',target_scope_id);
+            grCatItemCategories.setValue('sys_scope',target_scope_id);
+            grCatItemCategories.insert();
+        }
+    },
+    
+    _ensure_scoped_category_exists: function(category_title, target_scope_id) {
+        // The Item record and its Category must be in the same application scope. 
+        // Does scoped version of category already exist?   
+        var query = 'GOTOtitleLIKE'+category_title+'^sys_scope='+target_scope_id;
+        var grCategory = new GlideRecord('sc_category');
+        grCategory.addEncodedQuery(query);
+        grCategory.query();
+        if (!grCategory.next()) {
+            //this.log.logInfo(this.LOGMSG + "NO Scoped Category Record found...");
+            //this.log.logInfo(this.LOGMSG + "Looking for Global record to copy...");
+            query = 'title='+category_title;
+            grCategory.initialize();
+            grCategory.addEncodedQuery(query);
+            grCategory.query();
+            if (grCategory.next()) {           
+                //gs.info(logmsg + "Found Global Category record to copy..." + grCategory.getValue('title'));
+                grCategory.setValue('sys_scope',target_scope_id);
+                grCategory.setValue('title',category_title + '[Scoped]');
+                grCategory.setValue('active', 'true');
+                grCategory.setValue('parent',grCategory.getValue('sys_id'));            
+                var category_id = grCategory.insert();
+                //gs.info(logmsg + "Copied Global record. New category sys_id: " + category_id);
+            } //else {
+                //gs.info(logmsg + "No Global found record to copy..."); 
+            //}
+        } else {
+            //gs.info(logmsg + "Scoped Category Record found...");
+            //gs.info(logmsg + "Title: " + grCategory.getValue('title'));
+            category_id = grCategory.getValue('sys_id');
+        }    
+        return category_id;
+    },
+
+    _copy_available_for_on_new_item: function(source_item_id, new_item_id, target_scope_id) {
+        // Clone "Available For" [sc_cat_item_user_criteria_mtom]
+        
+        // Lookup global records to clone
+        var gr_user_criteria_mtom = new GlideRecord('sc_cat_item_user_criteria_mtom');
+        gr_user_criteria_mtom.addEncodedQuery('sc_cat_item='+source_item_id);
+        gr_user_criteria_mtom.query();
+        // for each global record, insert a new copy into the target_scope
+        while (gr_user_criteria_mtom.next()) {
+            var user_criteria_id = gr_user_criteria_mtom.getValue('user_criteria');
+            var gr_user_criteria_mtom_NEW = new GlideRecord('sc_cat_item_user_criteria_mtom');
+            gr_user_criteria_mtom_NEW.initialize();
+            gr_user_criteria_mtom_NEW.setValue('sys_scope', target_scope_id);
+            gr_user_criteria_mtom_NEW.setValue('sc_cat_item', new_item_id);
+            gr_user_criteria_mtom_NEW.setValue('user_criteria', user_criteria_id);
+            gr_user_criteria_mtom_NEW.insert();
+        }
+    },
+
+    _copy_not_available_for_on_new_item: function(source_item_id, new_item_id, target_scope_id) {
+    // Clone "Not Available For" [sc_cat_item_user_criteria_no_mtom]
+
+        // Lookup global records to clone
+        var gr_user_criteria_mtom = new GlideRecord('sc_cat_item_user_criteria_no_mtom');
+        gr_user_criteria_mtom.addEncodedQuery('sc_cat_item='+source_item_id);
+        gr_user_criteria_mtom.query();
+        // for each global record, insert a new copy into the target_scope
+        while (gr_user_criteria_mtom.next()) {
+            var user_criteria_id = gr_user_criteria_mtom.getValue('user_criteria');
+            var gr_user_criteria_mtom_NEW = new GlideRecord('sc_cat_item_user_criteria_no_mtom');
+            gr_user_criteria_mtom_NEW.initialize();
+            gr_user_criteria_mtom_NEW.setValue('sys_scope', target_scope_id);
+            gr_user_criteria_mtom_NEW.setValue('sc_cat_item', new_item_id);
+            gr_user_criteria_mtom_NEW.setValue('user_criteria', user_criteria_id);
+            gr_user_criteria_mtom_NEW.insert();
+        }
+    },
+
+    _copy_client_scripts_to_new_item: function(source_item_id, new_item_id, target_scope_id) {
+    // Clone "Catalog Client Scripts" [catalog_script_client] 
+        // Lookup global records to clone
+        var gr_catalog_script_client = new GlideRecord('catalog_script_client');
+        gr_catalog_script_client.addEncodedQuery('cat_item='+source_item_id);
+        gr_catalog_script_client.query();
+        // for each global record, insert a new copy into the target_scope
+        while (gr_catalog_script_client.next()) {    
+            var name = gr_catalog_script_client.getValue('name');
+            gr_catalog_script_client.setValue('name', name + '[Scoped]');
+
+            gr_catalog_script_client.setValue('sys_scope', target_scope_id);
+            gr_catalog_script_client.setValue('sys_package', target_scope_id);
+            gr_catalog_script_client.setValue('cat_item', new_item_id);
+            
+            gr_catalog_script_client.insert();
+        }
+    },
+
+    _copy_variables_to_new_item: function(source_item_id, new_item_id, target_scope_id) {
+        
+    // Clone "Variable Sets" [catalog_variable_set] 
+        // FIRST -> Look up if there are Variable Sets associated with the Item
+        var gr_io_set_item = new GlideRecord('io_set_item');
+        gr_io_set_item.addEncodedQuery('sc_cat_item=' + source_item_id);
+        gr_io_set_item.query();
+        
+        if (gr_io_set_item.getRowCount() > 0 ) {
+            // There are Variable Sets associated with the item
+
+            // NEXT -> Clone the Variable Sets and related records
+            while (gr_io_set_item.next()) {
+                gs.addInfoMessage('Found a Variable Set Relationship to recreate [io_set_item]: ' + gr_io_set_item.sys_id);
+
+                // Look up the Variable Set and see if we need to clone it
+                var catalog_variable_set_id = gr_io_set_item.getValue('variable_set');
+
+                gs.addInfoMessage('Checking to see if Catalog Variable Set clone already exists in our scope: ' + catalog_variable_set_id);
+                // get the 'internal_name' of the Variable Set to see if it exists in our Scope
+                var gr_catalog_variable_set = new GlideRecord('item_option_new_set');
+                gr_catalog_variable_set.get(catalog_variable_set_id);
+
+                var catalog_variable_set_internal_name = gr_catalog_variable_set.getValue('internal_name');
+                gs.addInfoMessage('catalog_variable_set_internal_name: ' + catalog_variable_set_internal_name);
+
+                // Does the Variable Set with this Internal Name already exist in our Scope?
+                gr_catalog_variable_set.initialize();
+                gr_catalog_variable_set.addQuery('');
+                gr_catalog_variable_set.addQuery('internal_name', catalog_variable_set_internal_name);
+                gr_catalog_variable_set.addQuery('sys_scope', target_scope_id);
+                gr_catalog_variable_set.query();
+
+                if (gr_catalog_variable_set.getRowCount() == 0 ) {
+                    gs.addInfoMessage('Need to create a Variable Set with this Internal Name in our scope');
+                    gr_catalog_variable_set.get(catalog_variable_set_id);
+                    gr_catalog_variable_set.setValue('sys_scope', target_scope_id);
+                    gr_catalog_variable_set.setValue('sys_package', target_scope_id);
+                    var gr_catalog_variable_set_title = gr_catalog_variable_set.getValue('title');
+                    gr_catalog_variable_set.setValue('title', gr_catalog_variable_set_title + '[Scoped]'); 
+                    var new_catalog_variable_set_id = gr_catalog_variable_set.insert();
+                    gs.addInfoMessage('Created new Catalog Variable Set: '+ new_catalog_variable_set_id);
+
+                    // Need to clone the variables, policies, and scripts in the set
+                    
+                    var gr_catalog_variable = new GlideRecord('item_option_new');
+                    gr_catalog_variable.addQuery('variable_set', catalog_variable_set_id);
+                    gr_catalog_variable.query();
+                    while (gr_catalog_variable.next()) {
+                        gr_catalog_variable.setValue('sys_scope', target_scope_id);
+                        gr_catalog_variable.setValue('sys_package', target_scope_id);  
+                        gr_catalog_variable.setValue('variable_set', new_catalog_variable_set_id);  
+                        gr_catalog_variable.insert();
+                    }
+
+
+                    // look up variables associated with old item and clone
+                    //item_option_new
+
+                    
+                    
+                } else {
+                    gs.addInfoMessage('Variable Set with this Internal Name already exists in our scope');
+                }
+            
+                
+
+            }
+
+            // Associate new Variable Set to our new Item
+            gr_io_set_item.initialize();
+            gr_io_set_item.setValue('sc_cat_item',new_item_id);
+            gr_io_set_item.setValue('variable_set',new_catalog_variable_set_id);
+            gr_io_set_item.setValue('sys_scope', target_scope_id);
+            gr_io_set_item.setValue('sys_package', target_scope_id); 
+            gr_io_set_item.insert();
+            gs.addInfoMessage('Associated Variable Set to Item');
+
+            
+                //gr_catalog_variable_set.get(source_catalog_variable_set_id);
+                
+            
+                //gr_catalog_variable_set.setValue('sys_scope', target_scope_id);
+                //gr_catalog_variable_set.setValue('sys_package', target_scope_id);                
+                // title
+                //var gr_catalog_variable_set_title = gr_catalog_variable_set.getValue('title');
+                //gr_catalog_variable_set.setValue('title', gr_catalog_variable_set_title + '[Scoped]');
+                // internal_name
+                //var gr_catalog_variable_set_internal_name = gr_catalog_variable_set.getValue('internal_name');
+                //gr_catalog_variable_set.setValue('internal_name', gr_catalog_variable_set_internal_name + '_scoped');
+                
+                //var new_catalog_variable_set_id = gr_catalog_variable_set.insert();
+                //gs.addInfoMessage('Inserted new Variable Set: ' + new_catalog_variable_set_id);
+
+                /*
+                // Find Variables associated with the Var Set
+                var gr_catalog_variable = new GlideRecord('catalog_variable');
+                gr_catalog_variable.addQuery('variable_set',source_catalog_variable_set_id);
+                gr_catalog_variable.query();
+                while (gr_catalog_variable.next()) {
+                    // Clone them and update them to point at the new variable_set
+                    gr_catalog_variable.setValue('sys_scope', target_scope_id);
+                    gr_catalog_variable.setValue('sys_package', target_scope_id);
+                    gr_catalog_variable.setValue('variable_set', new_catalog_variable_set_id);
+                    gr_catalog_variable.insert();
+                }
+                */
+        }
+
+
+        /*
+        // THEN -> 
+        var variable_set_id = gr_io_set_item.getValue('variable_set');
+        // Clone "Catalog Variables" associated with this "Variable "Set"
+        _clone_catalog_variable(source_item_id, new_item_id, target_scope_id, variable_set_id);
+*/
+        
+
+    // Clone "Catalog Variable Sets" [io_set_item] <- M2M - Catalog Item to Variable Set
+
+    // what about UI Policies and Client Scripts for Variable Sets?
+
+    // Clone "Catalog Variables" [catalog_variable]
+    },
+
+    _clone_catalog_variable: function(source_item_id, new_item_id, target_scope_id, variable_set_id) {
+    // Clone "Catalog Variables" [catalog_variable]
+        var gr_catalog_variable = new GlideRecord('catalog_variable');
+        var query = 'variable_set=' + variable_set_id;
+        gr_catalog_variable.addEncodedQuery(query);
+        gr_catalog_variable.query();
+        while (gr_catalog_variable.next()) {
+
+            gr_catalog_variable.setValue('sys_scope', target_scope_id);
+            gr_catalog_variable.setValue('sys_package', target_scope_id);
+            gr_catalog_variable.setValue('cat_item', new_item_id);
+
+            var new_catalog_variable_id = gr_catalog_variable.insert();
+            return new_catalog_variable_id;
+        }
+    },
+
+    /*
+    _copy_variable_sets_to_new_item: function(source_item_id, new_item_id, target_scope_id) {
+        // Create scoped version of Variable Set [catalog_variable_set]
+        var gr_io_set_item = new GlideRecord('io_set_item');
+        gr_io_set_item.addEncodedQuery('sc_cat_item='+ source_item_id);
+        gr_io_set_item.query();
+        while (gr_io_set_item.next()) {
+            var variable_set_id = gr_io_set_item.getValue('catalog_variable_set');
+            var gr_variable_set = new GlideRecord('catalog_variable_set');
+            gr_variable_set.get('variable_set_id');
+
+            var new_title = gr_variable_set.getValue('title');
+            gr_variable_set.setValue('title', new_title + '[Scoped]');
+
+            var new_internal_name = gr_variable_set.getValue('internal_name');
+            gr_variable_set.setValue('internal_name', new_internal_name + '_scoped');
+
+            gr_variable_set.setValue('sys_scope', target_scope_id);
+            gr_variable_set.setValue('sys_package', target_scope_id);
+            gr_variable_set.insert();
+        }
+
+        
+    },
+    */
+
+    type: 'ItemScoperUtil'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>dale.stubblefield</sys_created_by>
+        <sys_created_on>2020-07-31 14:58:22</sys_created_on>
+        <sys_id>1160aa9edb9610107e80d3fa5e961968</sys_id>
+        <sys_mod_count>89</sys_mod_count>
+        <sys_name>ItemScoperUtil</sys_name>
+        <sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope>
+        <sys_update_name>sys_script_include_1160aa9edb9610107e80d3fa5e961968</sys_update_name>
+        <sys_updated_by>dale.stubblefield</sys_updated_by>
+        <sys_updated_on>2020-08-05 13:19:58</sys_updated_on>
+    </sys_script_include>
+</record_update>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sc_cat_item_user_criteria_no_mtom">
+    <sc_cat_item_user_criteria_no_mtom action="DELETE">
+        <sc_cat_item display_value="Copy of Global Catalog Item 1">da5da207dbd2901058317a2faa961951</sc_cat_item>
+        <sys_class_name>sc_cat_item_user_criteria_no_mtom</sys_class_name>
+        <sys_created_by>dale.stubblefield</sys_created_by>
+        <sys_created_on>2020-08-02 23:50:02</sys_created_on>
+        <sys_id>225d2607dbd2901058317a2faa9619c0</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Copy of Global Catalog Item 1.Global User Criteria (Not Available For)</sys_name>
+        <sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope>
+        <sys_update_name>sc_cat_item_user_criteria_no_mtom_225d2607dbd2901058317a2faa9619c0</sys_update_name>
+        <sys_updated_by>dale.stubblefield</sys_updated_by>
+        <sys_updated_on>2020-08-02 23:50:02</sys_updated_on>
+        <user_criteria display_value="Global User Criteria (Not Available For)">0fc6b14bdb12901058317a2faa9619f8</user_criteria>
+    </sc_cat_item_user_criteria_no_mtom>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</application>
+        <file_path/>
+        <instance_id>a1fc2553db8858d0406350b6f4961917</instance_id>
+        <instance_name>empdstubblefield1</instance_name>
+        <name>sc_cat_item_user_criteria_no_mtom_225d2607dbd2901058317a2faa9619c0</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sc_cat_item_user_criteria_no_mtom"><sc_cat_item_user_criteria_no_mtom action="INSERT_OR_UPDATE"><sc_cat_item display_value="Copy of Global Catalog Item 1">da5da207dbd2901058317a2faa961951</sc_cat_item><sys_class_name>sc_cat_item_user_criteria_no_mtom</sys_class_name><sys_created_by>dale.stubblefield</sys_created_by><sys_created_on>2020-08-02 23:50:02</sys_created_on><sys_id>225d2607dbd2901058317a2faa9619c0</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Copy of Global Catalog Item 1.Global User Criteria (Not Available For)</sys_name><sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package><sys_policy/><sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope><sys_update_name>sc_cat_item_user_criteria_no_mtom_225d2607dbd2901058317a2faa9619c0</sys_update_name><sys_updated_by>dale.stubblefield</sys_updated_by><sys_updated_on>2020-08-02 23:50:02</sys_updated_on><user_criteria display_value="Global User Criteria (Not Available For)">0fc6b14bdb12901058317a2faa9619f8</user_criteria></sc_cat_item_user_criteria_no_mtom></record_update>]]></payload>
+        <payload_hash>-111456423</payload_hash>
+        <record_name>Copy of Global Catalog Item 1.Global User Criteria (Not Available For)</record_name>
+        <reverted_from/>
+        <source>9136f55fdbc010107e80d3fa5e9619c7</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>dale.stubblefield</sys_created_by>
+        <sys_created_on>2020-08-02 23:50:02</sys_created_on>
+        <sys_id>265d2607dbd2901058317a2faa9619c2</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>173b1950f610000001</sys_recorded_at>
+        <sys_updated_by>dale.stubblefield</sys_updated_by>
+        <sys_updated_on>2020-08-02 23:50:02</sys_updated_on>
+        <type>Catalog Item Not Available for</type>
+        <update_guid>6e5d2607b7d290101530f608a39e3cc1</update_guid>
+        <update_guid_history>6e5d2607b7d290101530f608a39e3cc1:-111456423</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Copy of Global Catalog Item 1.Global User Criteria (Not Available For)">a4cd2e07dbd2901058317a2faa9619c8</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>dale.stubblefield</sys_created_by>
+        <sys_created_on>2020-08-02 23:51:49</sys_created_on>
+        <sys_db_object display_value="" name="sc_cat_item_user_criteria_no_mtom">sc_cat_item_user_criteria_no_mtom</sys_db_object>
+        <sys_id>7262f076acc94bea95f16541d9c69819</sys_id>
+        <sys_metadata>225d2607dbd2901058317a2faa9619c0</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Copy of Global Catalog Item 1.Global User Criteria (Not Available For)</sys_name>
+        <sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope>
+        <sys_scope_delete display_value="">019174112e2d4c82864260cdceae75a9</sys_scope_delete>
+        <sys_update_name>sc_cat_item_user_criteria_no_mtom_225d2607dbd2901058317a2faa9619c0</sys_update_name>
+        <sys_update_version display_value="sc_cat_item_user_criteria_no_mtom_225d2607dbd2901058317a2faa9619c0">265d2607dbd2901058317a2faa9619c2</sys_update_version>
+        <sys_updated_by>dale.stubblefield</sys_updated_by>
+        <sys_updated_on>2020-08-02 23:51:49</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

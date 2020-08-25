@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_action">
+    <sys_ui_action action="DELETE">
+        <action_name/>
+        <active>false</active>
+        <client>false</client>
+        <client_script_v2><![CDATA[function onClick(g_form) {
+
+}]]></client_script_v2>
+        <comments/>
+        <condition/>
+        <form_action>false</form_action>
+        <form_button>false</form_button>
+        <form_button_v2>false</form_button_v2>
+        <form_context_menu>false</form_context_menu>
+        <form_link>false</form_link>
+        <form_menu_button_v2>false</form_menu_button_v2>
+        <form_style/>
+        <hint/>
+        <isolate_script>false</isolate_script>
+        <list_action>false</list_action>
+        <list_banner_button>false</list_banner_button>
+        <list_button>false</list_button>
+        <list_choice>false</list_choice>
+        <list_context_menu>false</list_context_menu>
+        <list_link>false</list_link>
+        <list_save_with_form_button>false</list_save_with_form_button>
+        <list_style/>
+        <messages/>
+        <name>Copy to new App Scope Script</name>
+        <onclick/>
+        <order>100</order>
+        <script><![CDATA[new ItemScoperUtil().copyItemToScope(current.sys_id);
+action.setRedirectURL(current);
+
+
+
+/*
+
+////////////////////////////////////////
+var logmsg = "RDS: ";
+
+////////////////////////////////////////
+// Target should eventually be moved to a UI Modal that allows user to select scope
+// Value is hard coded for development
+// Target Scope
+var target_scope_name = 'x_snc_ds_scopditms'; // Catalog Items Scoped
+var target_scope_id = '58f29139dbd69410887adf6b5e9619ec'; // Catalog Items Scoped
+
+////////////////////////////////////////
+// Catalog Item to clone 
+//var item_id = 'ef59d423db025010887adf6b5e961969'; // 'Global Catalog Item'
+// var item_id = 'd625b9ffc0a80165010725b451ef7e4e'; // Assign Office Space
+var source_item_id = current.sys_id; // 'Global Catalog Item'
+copyCatItem(source_item_id);
+
+////////////////////////////////////////////////////////////////////////////////
+//// Create new "Catalog Item" [sc_cat_item] with same name
+// also create record on "Catalogs" [sc_cat_item_catalog]
+// also create record on "Categories" [sc_cat_item_category]
+function copyCatItem(source_item_id) {
+    
+    // Get current item details
+    var grItem = new GlideRecord('sc_cat_item');
+    grItem.get(source_item_id);
+    var category_id = grItem.getValue('category');
+    var category_title = grItem.getDisplayValue('category');
+    var catalog_id = grItem.getValue('sc_catalogs');
+    
+    // Create New Item with no Category or Catalog
+    var newName = grItem.getValue('name');
+    grItem.setValue('name',newName + '(Scoped)');
+    grItem.setValue('sys_scope',target_scope_id);
+    grItem.setValue('sc_catalogs','');
+    grItem.setValue('category','');
+    var new_item_id = grItem.insert();
+    
+    // Set Catalog for New Item by creating new records on [sc_cat_item_catalog]
+    // if catalogs has a comma, then insert multiple records, one for each catalog the item is in
+    var catalog_id_Arr = catalog_id.split(',');
+    catalog_id_Arr.forEach(createCatalogEntries);
+    function createCatalogEntries(item, index) {
+        gs.info(logmsg + "Creating Catalog Entry for catalog: " + item);
+        var grCatItemCatalog = new GlideRecord('sc_cat_item_catalog');
+        grCatItemCatalog.initialize();
+        grCatItemCatalog.setValue('sc_catalog',item);
+        grCatItemCatalog.setValue('sys_scope',target_scope_id);
+        grCatItemCatalog.setValue('sc_cat_item',new_item_id);
+        grCatItemCatalog.insert();
+    }  
+
+    // Set Category for New Item by creating new records on [sc_cat_item_category]
+    // First, create any necessary Scoped versions of Categories
+    add_categories_to_item(source_item_id, new_item_id);    
+}
+
+function add_categories_to_item(source_item_id, new_item_id) {
+    // look up source records to copy for original Item on sc_cat_item_category
+    var gr_sc_cat_item_category = new GlideRecord('sc_cat_item_category');
+    gr_sc_cat_item_category.addQuery('sc_cat_item', source_item_id);
+    gr_sc_cat_item_category.query();
+
+    // Ensure scoped version of 'Category' exists before inserting new Item record
+    // For each record, create a new category (ex. "Original Name (Scoped)")
+    while (gr_sc_cat_item_category.next()) {
+        category_title = gr_sc_cat_item_category.getDisplayValue('sc_category');
+    
+        // create new Scoped version of category if it does not exist
+        var new_category_id = checkCat(category_title, target_scope_id);
+
+        var grCatItemCategories = new GlideRecord('sc_cat_item_category');
+        grCatItemCategories.initialize();
+        grCatItemCategories.setValue('sc_category',new_category_id);
+        grCatItemCategories.setValue('sys_scope',target_scope_id);
+        grCatItemCategories.setValue('sc_cat_item',new_item_id);
+        grCatItemCategories.insert();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// The Item record and its Category must be in the same application scope. 
+function checkCat(category_title, target_scope_id) {
+    var query = 'GOTOtitleLIKE'+category_title+'^sys_scope='+target_scope_id;
+    // GOTOtitle=Hardware
+    var grCategory = new GlideRecord('sc_category');
+    grCategory.addEncodedQuery(query);
+    grCategory.query();
+    if (!grCategory.next()) {
+        gs.info(logmsg + "NO Scoped Category Record found...");
+        gs.info(logmsg + "Looking for Global record to copy...");
+        query = 'title='+category_title;
+        grCategory.initialize();
+        grCategory.addEncodedQuery(query);
+        grCategory.query();
+        if (grCategory.next()) {           
+            gs.info(logmsg + "Found Global Category record to copy..." + grCategory.getValue('title'));
+            grCategory.setValue('sys_scope',target_scope_id);
+            grCategory.setValue('title',category_title + '(Scoped)');
+            grCategory.setValue('active', 'false');
+            grCategory.setValue('parent',grCategory.getValue('sys_id'));            
+            var category_id = grCategory.insert();
+            gs.info(logmsg + "Copied Global record. New category sys_id: " + category_id);
+        } else {
+            gs.info(logmsg + "No Global found record to copy..."); 
+        }
+       
+    } else {
+        gs.info(logmsg + "Scoped Category Record found...");
+        gs.info(logmsg + "Title: " + grCategory.getValue('title'));
+        category_id = grCategory.getValue('sys_id');
+    }    
+    return category_id;
+}
+
+
+/*
+// >> Catalog Variables [item_option_new]
+>> Record [table_name]
+>> Catalog Item [sc_cat_item]
+>> Catalog Variables [item_option_new]
+Catalog Variable Sets [io_set_item]
+Catalog UI Policies [catalog_ui_policy]
+Catalog Client Scripts [catalog_script_client]
+Available For [sc_cat_item_user_criteria_mtom]
+Not Available For [sc_cat_item_user_criteria_no_mtom]
+
+Related Articles [sc_2_kb]
+Related Catalog Items [sc_2_sc]
+*/
+
+
+]]></script>
+        <show_insert>true</show_insert>
+        <show_multiple_update>false</show_multiple_update>
+        <show_query>false</show_query>
+        <show_update>true</show_update>
+        <sys_class_name>sys_ui_action</sys_class_name>
+        <sys_created_by>dale.stubblefield</sys_created_by>
+        <sys_created_on>2020-07-31 20:07:51</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>c457279adb5210105e99105b4b96190b</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>Copy to new App Scope Script</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope>
+        <sys_update_name>sys_ui_action_c457279adb5210105e99105b4b96190b</sys_update_name>
+        <sys_updated_by>dale.stubblefield</sys_updated_by>
+        <sys_updated_on>2020-07-31 20:09:06</sys_updated_on>
+        <table/>
+        <ui11_compatible>true</ui11_compatible>
+        <ui16_compatible>false</ui16_compatible>
+    </sys_ui_action>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</application>
+        <file_path/>
+        <instance_id>a1fc2553db8858d0406350b6f4961917</instance_id>
+        <instance_name>empdstubblefield1</instance_name>
+        <name>sys_ui_action_c457279adb5210105e99105b4b96190b</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update sys_domain="global" table="sys_ui_action"&gt;&lt;sys_ui_action action="INSERT_OR_UPDATE"&gt;&lt;action_name/&gt;&lt;active&gt;false&lt;/active&gt;&lt;client&gt;false&lt;/client&gt;&lt;client_script_v2&gt;&lt;![CDATA[function onClick(g_form) {
+
+}]]&gt;&lt;/client_script_v2&gt;&lt;comments/&gt;&lt;condition/&gt;&lt;form_action&gt;false&lt;/form_action&gt;&lt;form_button&gt;false&lt;/form_button&gt;&lt;form_button_v2&gt;false&lt;/form_button_v2&gt;&lt;form_context_menu&gt;false&lt;/form_context_menu&gt;&lt;form_link&gt;false&lt;/form_link&gt;&lt;form_menu_button_v2&gt;false&lt;/form_menu_button_v2&gt;&lt;form_style/&gt;&lt;hint/&gt;&lt;isolate_script&gt;false&lt;/isolate_script&gt;&lt;list_action&gt;false&lt;/list_action&gt;&lt;list_banner_button&gt;false&lt;/list_banner_button&gt;&lt;list_button&gt;false&lt;/list_button&gt;&lt;list_choice&gt;false&lt;/list_choice&gt;&lt;list_context_menu&gt;false&lt;/list_context_menu&gt;&lt;list_link&gt;false&lt;/list_link&gt;&lt;list_save_with_form_button&gt;false&lt;/list_save_with_form_button&gt;&lt;list_style/&gt;&lt;messages/&gt;&lt;name&gt;Copy to new App Scope Script&lt;/name&gt;&lt;onclick/&gt;&lt;order&gt;100&lt;/order&gt;&lt;script&gt;&lt;![CDATA[new ItemScoperUtil().copyItemToScope(current.sys_id);
+action.setRedirectURL(current);
+
+
+
+/*
+
+////////////////////////////////////////
+var logmsg = "RDS: ";
+
+////////////////////////////////////////
+// Target should eventually be moved to a UI Modal that allows user to select scope
+// Value is hard coded for development
+// Target Scope
+var target_scope_name = 'x_snc_ds_scopditms'; // Catalog Items Scoped
+var target_scope_id = '58f29139dbd69410887adf6b5e9619ec'; // Catalog Items Scoped
+
+////////////////////////////////////////
+// Catalog Item to clone 
+//var item_id = 'ef59d423db025010887adf6b5e961969'; // 'Global Catalog Item'
+// var item_id = 'd625b9ffc0a80165010725b451ef7e4e'; // Assign Office Space
+var source_item_id = current.sys_id; // 'Global Catalog Item'
+copyCatItem(source_item_id);
+
+////////////////////////////////////////////////////////////////////////////////
+//// Create new "Catalog Item" [sc_cat_item] with same name
+// also create record on "Catalogs" [sc_cat_item_catalog]
+// also create record on "Categories" [sc_cat_item_category]
+function copyCatItem(source_item_id) {
+    
+    // Get current item details
+    var grItem = new GlideRecord('sc_cat_item');
+    grItem.get(source_item_id);
+    var category_id = grItem.getValue('category');
+    var category_title = grItem.getDisplayValue('category');
+    var catalog_id = grItem.getValue('sc_catalogs');
+    
+    // Create New Item with no Category or Catalog
+    var newName = grItem.getValue('name');
+    grItem.setValue('name',newName + '(Scoped)');
+    grItem.setValue('sys_scope',target_scope_id);
+    grItem.setValue('sc_catalogs','');
+    grItem.setValue('category','');
+    var new_item_id = grItem.insert();
+    
+    // Set Catalog for New Item by creating new records on [sc_cat_item_catalog]
+    // if catalogs has a comma, then insert multiple records, one for each catalog the item is in
+    var catalog_id_Arr = catalog_id.split(',');
+    catalog_id_Arr.forEach(createCatalogEntries);
+    function createCatalogEntries(item, index) {
+        gs.info(logmsg + "Creating Catalog Entry for catalog: " + item);
+        var grCatItemCatalog = new GlideRecord('sc_cat_item_catalog');
+        grCatItemCatalog.initialize();
+        grCatItemCatalog.setValue('sc_catalog',item);
+        grCatItemCatalog.setValue('sys_scope',target_scope_id);
+        grCatItemCatalog.setValue('sc_cat_item',new_item_id);
+        grCatItemCatalog.insert();
+    }  
+
+    // Set Category for New Item by creating new records on [sc_cat_item_category]
+    // First, create any necessary Scoped versions of Categories
+    add_categories_to_item(source_item_id, new_item_id);    
+}
+
+function add_categories_to_item(source_item_id, new_item_id) {
+    // look up source records to copy for original Item on sc_cat_item_category
+    var gr_sc_cat_item_category = new GlideRecord('sc_cat_item_category');
+    gr_sc_cat_item_category.addQuery('sc_cat_item', source_item_id);
+    gr_sc_cat_item_category.query();
+
+    // Ensure scoped version of 'Category' exists before inserting new Item record
+    // For each record, create a new category (ex. "Original Name (Scoped)")
+    while (gr_sc_cat_item_category.next()) {
+        category_title = gr_sc_cat_item_category.getDisplayValue('sc_category');
+    
+        // create new Scoped version of category if it does not exist
+        var new_category_id = checkCat(category_title, target_scope_id);
+
+        var grCatItemCategories = new GlideRecord('sc_cat_item_category');
+        grCatItemCategories.initialize();
+        grCatItemCategories.setValue('sc_category',new_category_id);
+        grCatItemCategories.setValue('sys_scope',target_scope_id);
+        grCatItemCategories.setValue('sc_cat_item',new_item_id);
+        grCatItemCategories.insert();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// The Item record and its Category must be in the same application scope. 
+function checkCat(category_title, target_scope_id) {
+    var query = 'GOTOtitleLIKE'+category_title+'^sys_scope='+target_scope_id;
+    // GOTOtitle=Hardware
+    var grCategory = new GlideRecord('sc_category');
+    grCategory.addEncodedQuery(query);
+    grCategory.query();
+    if (!grCategory.next()) {
+        gs.info(logmsg + "NO Scoped Category Record found...");
+        gs.info(logmsg + "Looking for Global record to copy...");
+        query = 'title='+category_title;
+        grCategory.initialize();
+        grCategory.addEncodedQuery(query);
+        grCategory.query();
+        if (grCategory.next()) {           
+            gs.info(logmsg + "Found Global Category record to copy..." + grCategory.getValue('title'));
+            grCategory.setValue('sys_scope',target_scope_id);
+            grCategory.setValue('title',category_title + '(Scoped)');
+            grCategory.setValue('active', 'false');
+            grCategory.setValue('parent',grCategory.getValue('sys_id'));            
+            var category_id = grCategory.insert();
+            gs.info(logmsg + "Copied Global record. New category sys_id: " + category_id);
+        } else {
+            gs.info(logmsg + "No Global found record to copy..."); 
+        }
+       
+    } else {
+        gs.info(logmsg + "Scoped Category Record found...");
+        gs.info(logmsg + "Title: " + grCategory.getValue('title'));
+        category_id = grCategory.getValue('sys_id');
+    }    
+    return category_id;
+}
+
+
+/*
+// &gt;&gt; Catalog Variables [item_option_new]
+&gt;&gt; Record [table_name]
+&gt;&gt; Catalog Item [sc_cat_item]
+&gt;&gt; Catalog Variables [item_option_new]
+Catalog Variable Sets [io_set_item]
+Catalog UI Policies [catalog_ui_policy]
+Catalog Client Scripts [catalog_script_client]
+Available For [sc_cat_item_user_criteria_mtom]
+Not Available For [sc_cat_item_user_criteria_no_mtom]
+
+Related Articles [sc_2_kb]
+Related Catalog Items [sc_2_sc]
+*/
+
+
+]]&gt;&lt;/script&gt;&lt;show_insert&gt;true&lt;/show_insert&gt;&lt;show_multiple_update&gt;false&lt;/show_multiple_update&gt;&lt;show_query&gt;false&lt;/show_query&gt;&lt;show_update&gt;true&lt;/show_update&gt;&lt;sys_class_name&gt;sys_ui_action&lt;/sys_class_name&gt;&lt;sys_created_by&gt;dale.stubblefield&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2020-07-31 20:07:51&lt;/sys_created_on&gt;&lt;sys_domain&gt;global&lt;/sys_domain&gt;&lt;sys_domain_path&gt;/&lt;/sys_domain_path&gt;&lt;sys_id&gt;c457279adb5210105e99105b4b96190b&lt;/sys_id&gt;&lt;sys_mod_count&gt;1&lt;/sys_mod_count&gt;&lt;sys_name&gt;Copy to new App Scope Script&lt;/sys_name&gt;&lt;sys_overrides/&gt;&lt;sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924"&gt;5213cdf9db969410887adf6b5e961924&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Catalog Item Scoper"&gt;5213cdf9db969410887adf6b5e961924&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_ui_action_c457279adb5210105e99105b4b96190b&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;dale.stubblefield&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2020-07-31 20:09:06&lt;/sys_updated_on&gt;&lt;table/&gt;&lt;ui11_compatible&gt;true&lt;/ui11_compatible&gt;&lt;ui16_compatible&gt;false&lt;/ui16_compatible&gt;&lt;/sys_ui_action&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>299949571</payload_hash>
+        <record_name>Copy to new App Scope Script</record_name>
+        <reverted_from/>
+        <source>9136f55fdbc010107e80d3fa5e9619c7</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>dale.stubblefield</sys_created_by>
+        <sys_created_on>2020-07-31 20:09:06</sys_created_on>
+        <sys_id>a2972b16db92101058317a2faa96199f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>173a67e109f0000001</sys_recorded_at>
+        <sys_updated_by>dale.stubblefield</sys_updated_by>
+        <sys_updated_on>2020-07-31 20:09:06</sys_updated_on>
+        <type>UI Action</type>
+        <update_guid>2e972b169792101090371536ffdd119e</update_guid>
+        <update_guid_history>2e972b169792101090371536ffdd119e:299949571,c457279a655210102c55e6046a9ac20d:1749270074</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>dale.stubblefield</sys_created_by>
+        <sys_created_on>2020-07-31 20:56:27</sys_created_on>
+        <sys_db_object display_value="" name="sys_ui_action">sys_ui_action</sys_db_object>
+        <sys_id>36681c0018d2472695e84607b95288e4</sys_id>
+        <sys_metadata>c457279adb5210105e99105b4b96190b</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Copy to new App Scope Script</sys_name>
+        <sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope>
+        <sys_scope_delete display_value="">019174112e2d4c82864260cdceae75a9</sys_scope_delete>
+        <sys_update_name>sys_ui_action_c457279adb5210105e99105b4b96190b</sys_update_name>
+        <sys_update_version display_value="sys_ui_action_c457279adb5210105e99105b4b96190b">a2972b16db92101058317a2faa96199f</sys_update_version>
+        <sys_updated_by>dale.stubblefield</sys_updated_by>
+        <sys_updated_on>2020-07-31 20:56:27</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

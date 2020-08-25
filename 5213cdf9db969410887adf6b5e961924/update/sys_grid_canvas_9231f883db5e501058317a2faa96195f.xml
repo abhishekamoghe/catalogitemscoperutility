@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_grid_canvas">
+    <sys_grid_canvas action="INSERT_OR_UPDATE">
+        <legacy_page display_value="PA Scoped Catalog Items - New Tab">0e31f883db5e501058317a2faa96195d</legacy_page>
+        <name>PA Scoped Catalog Items - New Tab</name>
+        <sys_class_name>sys_grid_canvas</sys_class_name>
+        <sys_created_by>dale.stubblefield</sys_created_by>
+        <sys_created_on>2020-08-02 14:47:42</sys_created_on>
+        <sys_id>9231f883db5e501058317a2faa96195f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>PA Scoped Catalog Items - New Tab</sys_name>
+        <sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope>
+        <sys_update_name>sys_grid_canvas_9231f883db5e501058317a2faa96195f</sys_update_name>
+        <sys_updated_by>dale.stubblefield</sys_updated_by>
+        <sys_updated_on>2020-08-02 14:47:42</sys_updated_on>
+    </sys_grid_canvas>
+</record_update>
