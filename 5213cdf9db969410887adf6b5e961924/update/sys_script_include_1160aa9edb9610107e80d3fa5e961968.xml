@@ -9,7 +9,7 @@
         <name>ItemScoperUtil</name>
         <script><![CDATA[var ItemScoperUtil = Class.create();
 ItemScoperUtil.prototype = {
-    LOGMSG: "ItemScoperUtil.copyItemToScope() -> ",
+    LOGMSG: 'ItemScoperUtil.copyItemToScope() -> ',
 
     initialize: function() {
         this.log = new GSLog('itemscoper.log', 'ItemScoperUtil');
@@ -270,6 +270,7 @@ ItemScoperUtil.prototype = {
 
                     // Need to clone the variables, policies, and scripts in the set
                     
+                    // look up variables associated with old item and clone
                     var gr_catalog_variable = new GlideRecord('item_option_new');
                     gr_catalog_variable.addQuery('variable_set', catalog_variable_set_id);
                     gr_catalog_variable.query();
@@ -280,18 +281,15 @@ ItemScoperUtil.prototype = {
                         gr_catalog_variable.insert();
                     }
 
-
-                    // look up variables associated with old item and clone
-                    //item_option_new
+                    
+                    
+                    
 
                     
                     
                 } else {
                     gs.addInfoMessage('Variable Set with this Internal Name already exists in our scope');
                 }
-            
-                
-
             }
 
             // Associate new Variable Set to our new Item
@@ -399,13 +397,13 @@ ItemScoperUtil.prototype = {
         <sys_created_by>dale.stubblefield</sys_created_by>
         <sys_created_on>2020-07-31 14:58:22</sys_created_on>
         <sys_id>1160aa9edb9610107e80d3fa5e961968</sys_id>
-        <sys_mod_count>89</sys_mod_count>
+        <sys_mod_count>90</sys_mod_count>
         <sys_name>ItemScoperUtil</sys_name>
         <sys_package display_value="Catalog Item Scoper" source="5213cdf9db969410887adf6b5e961924">5213cdf9db969410887adf6b5e961924</sys_package>
         <sys_policy/>
         <sys_scope display_value="Catalog Item Scoper">5213cdf9db969410887adf6b5e961924</sys_scope>
         <sys_update_name>sys_script_include_1160aa9edb9610107e80d3fa5e961968</sys_update_name>
         <sys_updated_by>dale.stubblefield</sys_updated_by>
-        <sys_updated_on>2020-08-05 13:19:58</sys_updated_on>
+        <sys_updated_on>2020-08-25 11:45:15</sys_updated_on>
     </sys_script_include>
 </record_update>
